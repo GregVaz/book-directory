@@ -1,2 +1,15 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="d-flex justify-content-between flex-wrap">
+  {{#each notelist}}
+    <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{title}}</h5>
+        <h6 class="card-subtitle">Autor: {{author}}</h6>
+        <br>
+        <p class="card-text">Abstract: {{abstract}}</p>
+        <small class="text-muted">Fecha de publicación: {{publication_date}}</small>
+        <br>
+        <a href="/books/view?key={{bookkey}}" class="card-link">Ver libro</a>
+      </div>
+    </div>
+  {{/each}}
+</div>
