@@ -1,9 +1,9 @@
 {{#if book}}<h3>{{ book.title }}</h3>{{/if}}
 {{#if book}}<p>{{ book.author }}</p>{{/if}}
-{{#if key }}
+{{#if id }}
   <hr/>
   <p>
-    <a href="/books/destroy?key={{key}}">Delete</a>
-|   <a href="/books/edit?key={{key}}">Edit</a>
+    <a href="/books/destroy?id={{id}}">Delete</a>
+|   <a href="/books/edit?id={{id}}">Edit</a>
   </p>
 {{/if}}

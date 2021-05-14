@@ -1,9 +1,9 @@
-import { Book, AbstractBooksStore } from './Books.mjs';
+import { Book, AbstractBooksStore } from './books.mjs';
 import Sequelize from 'sequelize';
 import {
   connectDB as connectSequlz,
   close as closeSequlz
-} from './sequlz.mjs';
+} from './index.mjs';
 import DBG from 'debug';
 const debug = DBG('books:books-sequelize');
 const dberror = DBG('books:error-sequelize');
@@ -15,7 +15,7 @@ async function connectDB() {
   if (sequelize) return;
   sequelize = await connectSequlz();
   SQBook.init({
-    bookkey: { type: Sequelize.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    id: { type: Sequelize.DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     title: Sequelize.DataTypes.STRING,
     author: Sequelize.DataTypes.STRING,
     publication_date: Sequelize.DataTypes.DATE,
@@ -23,7 +23,7 @@ async function connectDB() {
     cover: Sequelize.DataTypes.BLOB
   }, {
     sequelize,
-    modelName: 'books',
+    modelName: 'Books',
     timestamps: false
   });
   await SQBook.sync();
@@ -36,11 +36,11 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
     sequelize = undefined;
   }
 
-  async update(bookkey, title, author, publication_date, abstract, cover) {
+  async update(id, title, author, publication_date, abstract, cover) {
     await connectDB();
-    const Book = await SQBook.findOne({ where: { bookkey: bookkey } }) 
+    const Book = await SQBook.findOne({ where: { id: id } }) 
     if (!Book) { 
-        throw new Error(`No Book found for ${bookkey}`); 
+        throw new Error(`No Book found for ${id}`); 
     } else {
         await SQBook.update({ 
             title: title, 
@@ -49,9 +49,9 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
             abstract: abstract,
             cover: cover
         }, {
-            where: { bookkey: bookkey }
+            where: { id: id }
         });
-        return this.read(bookkey);
+        return this.read(id);
     } 
   }
 
@@ -64,31 +64,31 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
         abstract: abstract,
         cover: cover
     });
-    return new Book(sqbook.bookkey, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover);
+    return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover);
   }
 
-  async read(bookkey) {
+  async read(id) {
     await connectDB();
-    const sqbook = await SQBook.findOne({ where: { bookkey: bookkey } });
+    const sqbook = await SQBook.findOne({ where: { id: id } });
     if (!Book) { 
-        throw new Error(`No Book found for ${bookkey}`); 
+        throw new Error(`No Book found for ${id}`); 
     } else { 
-        return new Book(sqbook.bookkey, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover); 
+        return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover); 
     } 
   }
 
-  async destroy(bookkey) {
+  async destroy(id) {
     await connectDB();
-    await SQBook.destroy({ where: { bookkey: bookkey } });
-    debug(`DESTROY ${bookkey}`);
+    await SQBook.destroy({ where: { id: id } });
+    debug(`DESTROY ${id}`);
   }
 
   async keylist() {
     await connectDB();
-    const books = await SQBook.findAll({ attributes: [ 'bookkey' ] });
-    const bookkeys = books.map(Book => Book.bookkey); 
-    debug(`KEYLIST ${bookkeys}`);
-    return bookkeys;
+    const books = await SQBook.findAll({ attributes: [ 'id' ] });
+    const ids = books.map(Book => Book.id); 
+    debug(`KEYLIST ${ids}`);
+    return ids;
   }
 
   async count() {

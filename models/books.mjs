@@ -1,4 +1,4 @@
-const _book_bookkey = Symbol('bookkey');
+const _book_id = Symbol('id');
 const _book_title = Symbol('title');
 const _book_author = Symbol('author');
 const _book_publication_date = Symbol('publication_date');
@@ -7,8 +7,8 @@ const _book_cover = Symbol('cover');
 
 // Describe a single Book that our application will manage
 export class Book {
-  constructor(bookkey, title, author, publication_date, abstract, cover) {
-    this[_book_bookkey] = bookkey;
+  constructor(id, title, author, publication_date, abstract, cover) {
+    this[_book_id] = id;
     this[_book_title] = title;
     this[_book_author] = author;
     this[_book_publication_date] = publication_date;
@@ -16,7 +16,7 @@ export class Book {
     this[_book_cover] = cover;
   }
 
-  get bookkey() { return this[_book_bookkey]; }
+  get id() { return this[_book_id]; }
   get title() { return this[_book_title]; }
   set title(newTitle) { this[_book_title] = newTitle; }
   get author() { return this[_book_author]; }
@@ -30,7 +30,7 @@ export class Book {
 
   get JSON() {
     return JSON.stringify({
-      bookkey: this.bookkey,
+      id: this.id,
       title: this.title,
       author: this.author,
       publication_date: this.publication_date,
@@ -42,8 +42,8 @@ export class Book {
   static fromJSON(json) {
     const data = JSON.parse(json);
     if (typeof data !== 'object'
-      || !data.hasOwnProperty('bookkey')
-      || typeof data.bookkey !== 'string'
+      || !data.hasOwnProperty('id')
+      || typeof data.id !== 'string'
       || !data.hasOwnProperty('title')
       || typeof data.title !== 'string'
       || !data.hasOwnProperty('author')
@@ -57,7 +57,7 @@ export class Book {
         throw new Error(`Not a Book: ${json}`);
     }
     const Book = new Book(
-      data.bookkey,
+      data.id,
       data.title,
       data.author,
       data.publication_date,
@@ -71,10 +71,10 @@ export class Book {
 // Describes methods for managin some Book instances
 export class AbstractBooksStore {
   async close() {  }
-  async update(bookkey, title, author, publication_date, abstract, cover) {  }
-  async create(bookkey, title, author, publication_date, abstract, cover) {  }
-  async read(bookkey) {  }
-  async destroy(bookkey) {  }
+  async update(id, title, author, publication_date, abstract, cover) {  }
+  async create(id, title, author, publication_date, abstract, cover) {  }
+  async read(id) {  }
+  async destroy(id) {  }
   async keylist() {  }
   async count() {  }
 }

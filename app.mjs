@@ -28,7 +28,7 @@ export const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-hbs.registerPartials(path.join(__dirname, 'partials'));
+hbs.registerPartials(path.join(__dirname, 'views/partials'));
 
 // log rotation referes to a DevOps practice of keeping log file snapshots,
 // where each snapshot covers a few hours of activity
