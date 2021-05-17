@@ -22,10 +22,7 @@ router.get('/register', (req, res, next) => {
 }, getRegister);
 
 router.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  })
+  passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' })
 );
 
 router.get('/logout', logout);

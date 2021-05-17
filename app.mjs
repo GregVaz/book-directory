@@ -51,11 +51,14 @@ app.use(passport.session());
 
 passport.use(new LocalStrategy({usernameField: 'email', passwordField: 'password'}, 
   async function(email, password, done) {
-    dberror(email, password);
-    const user = await dbUserConnect.read(email);
-    if (user.password === password) return done(null, user);
+    try {
+      const user = await dbUserConnect.read(email);
+      if (user.email === email && user.password === password) return done(null, user);
+    } catch (err) {
+      throw new Error(`Something wrong happened`);
+    }
 
-    done(null, false);
+    done(null, false, { "message": "The user/password is incorrect" });
 }));
 
 passport.serializeUser(function(user, done) {
