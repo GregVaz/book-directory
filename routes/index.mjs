@@ -1,6 +1,7 @@
 import { default as express } from 'express';
+import passport from 'passport';
 export const router = express.Router();
-import { getAllBooks, getRegister, getLogin } from '../controllers/index.mjs';
+import { getAllBooks, getRegister, getLogin, logout } from '../controllers/index.mjs';
 
 router.get('/', (req, res, next) => {
   if (req.isAuthenticated()) return next();
@@ -19,3 +20,12 @@ router.get('/register', (req, res, next) => {
   
   return next();
 }, getRegister);
+
+router.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
+
+router.get('/logout', logout);

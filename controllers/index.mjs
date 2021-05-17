@@ -1,5 +1,4 @@
 import { BooksStore as books } from '../models/books-store.mjs';
-import { default as passport } from 'passport';
 
 export async function getAllBooks(req, res, next) {
   try {
@@ -16,8 +15,7 @@ export async function getAllBooks(req, res, next) {
 
 export function getRegister(req, res, next) {
   res.render('register', {
-    title: 'Register',
-    authenticated: req.isAuthenticated()
+    title: 'Register'
   });
 }
 
@@ -25,4 +23,9 @@ export function getLogin(req, res, next) {
   res.render('login', {
     title: 'Login'
   });
+}
+
+export function logout(req, res) {
+  req.logout();
+  res.redirect('/login');
 }
