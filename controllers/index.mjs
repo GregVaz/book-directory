@@ -15,11 +15,13 @@ export async function getAllBooks(req, res, next) {
 
 export function getRegister(req, res, next) {
   res.render('register', {
-    title: 'Register'
+    title: 'Register',
+    message: ''
   });
 }
 
 export function getLogin(req, res, next) {
+  console.log(req.flash);
   res.render('login', {
     title: 'Login'
   });
