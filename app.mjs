@@ -6,24 +6,66 @@ import { default as cookieParser } from 'cookie-parser';
 import { default as bodyParser } from 'body-parser';
 import * as http from 'http';
 import { approotdir } from './approotdir.mjs';
-const __dirname = approotdir;
-import {
-normalizePort, onError, onListening, handle404, basicErrorHandler
-} from './appsupport.mjs';
+import { normalizePort, onError, onListening, handle404, basicErrorHandler } from './appsupport.mjs';
 import { router as indexRouter } from './routes/index.mjs';
 import { router as booksRouter } from './routes/books.mjs';
+import { router as usersRouter } from './routes/users.mjs';
 import { default as rfs } from 'rotating-file-stream';
 import { default as DBG } from 'debug';
+import { default as passport } from 'passport';
+import { default as session } from 'express-session';
+import { Strategy as LocalStrategy } from 'passport-local'
+import dotenv from 'dotenv';
+dotenv.config();
 
+const __dirname = approotdir;
 const debug = DBG('books:debug');
-const dbgerror = DBG('books:error');
-
-import { useModel as useNotesModel } from './models/books-store.mjs';
-useNotesModel()
+const dberror = DBG('books:error');
+let dbUserConnect;
+// Initialize the books model
+import { useBookModel as booksModel, useUserModel as usersModel } from './models/books-store.mjs';
+booksModel()
   .then(store => { debug(`Using BooksStore ${store}`); })
   .catch(error => { onError({ code: 'EBOOKSSTORE', error}); });
+usersModel()
+  .then(store => { debug(`Using UserStore ${store}`); dbUserConnect = store; })
+  .catch(error => { onError({ code: 'EUSERSTORE', error}); });
 
 export const app = express();
+
+// Express configuration
+app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser(process.env.SECRET));
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Passport configuration
+app.use(express.urlencoded({ extended: false }));
+app.use(session({
+  secret: process.env.SECRET,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(new LocalStrategy(
+  async function(email, password, done) {
+    dberror(email, password);
+    const user = await dbUserConnect.read(email);
+    if (user.password === password) return done(null, user);
+
+    done(null, false);
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.email);
+});
+
+passport.deserializeUser(async function(email, done) {
+  const user = await dbUserConnect.read(email);
+  done(null, user);
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -43,19 +85,24 @@ app.use(logger(process.env.REQUEST_LOG_FORMAT || 'dev', {
   : process.stdout
 }));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
+// Routes
+app.post('/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  })
+);
 app.use('/', indexRouter);
 app.use('/books', booksRouter);
+app.use('/users', usersRouter);
 
 
 // catch 404 and forward to error handler
 app.use(handle404);
 app.use(basicErrorHandler);
 
+// Start server
 export const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 

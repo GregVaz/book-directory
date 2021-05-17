@@ -41,6 +41,11 @@ export function onError(error) {
         error.error);
       process.exit(1);
       break;
+    case 'EUSERSSTORE':
+      console.error(`Users data store initialization failure because `,
+        error.error);
+      process.exit(1);
+      break;
     default:
       throw error;
   }
