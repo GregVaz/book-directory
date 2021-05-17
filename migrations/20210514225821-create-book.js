@@ -22,7 +22,17 @@ module.exports = {
       },
       cover: {
         type: Sequelize.BLOB
-      }
+      },
+      userId: {
+        type: Sequelize.DataTypes.STRING,
+        references: {
+          model: {
+            tableName: 'Users'
+          },
+          key: 'email'
+        },
+        allowNull: false
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {

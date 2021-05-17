@@ -1,0 +1,24 @@
+<form method='POST' action='/login'>
+  <div class="container-fluid">
+
+    <div class="form-group row">
+      <label for="email" class="col-1 col-form-label">Email</label>
+      <div class="col">
+        <input type="text" class="form-control" 
+          id='email' name='username' placeholder="email@domain.com" 
+          value='{{#if user }}{{user.email}}{{/if}}'>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="password" class="col-1 col-form-label">Password</label>
+      <div class="col">
+        <input type="password" class="form-control" 
+          id='password' name='password' placeholder="********" 
+          value='{{#if user }}{{user.password}}{{/if}}'>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-dark">Submit</button>
+  </div>
+</form>

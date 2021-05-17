@@ -1,4 +1,5 @@
 import { Book, AbstractBooksStore } from './books.mjs';
+import { SQUser } from './users-sequelize.mjs';
 import Sequelize from 'sequelize';
 import {
   connectDB as connectSequlz,
@@ -26,6 +27,7 @@ async function connectDB() {
     modelName: 'Books',
     timestamps: false
   });
+  // SQBook.belongsTo(SQUser);
   await SQBook.sync();
 }
 
