@@ -87,12 +87,6 @@ app.use(logger(process.env.REQUEST_LOG_FORMAT || 'dev', {
 
 
 // Routes
-app.post('/login',
-  passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-  })
-);
 app.use('/', indexRouter);
 app.use('/books', (req, res, next) => {
   if (!req.isAuthenticated()) res.redirect('/login');
