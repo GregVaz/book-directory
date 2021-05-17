@@ -3,12 +3,12 @@ import { default as passport } from 'passport';
 
 export async function getAllBooks(req, res, next) {
   try {
-    const keylist = await books.keylist();
+    const keylist = await books.keylist(req.user.email);
     const keyPromises = keylist.map(id => {
       return books.read(id);
     });
     const notelist = await Promise.all(keyPromises);
-    res.render('index', { title: 'Books', notelist: notelist });
+    res.render('index', { title: 'Library', notelist: notelist, user: req.user });
   } catch (err) {
     next(err);
   }

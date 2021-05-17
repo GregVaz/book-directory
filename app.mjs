@@ -49,7 +49,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-passport.use(new LocalStrategy(
+passport.use(new LocalStrategy({usernameField: 'email', passwordField: 'password'}, 
   async function(email, password, done) {
     dberror(email, password);
     const user = await dbUserConnect.read(email);
@@ -94,7 +94,10 @@ app.post('/login',
   })
 );
 app.use('/', indexRouter);
-app.use('/books', booksRouter);
+app.use('/books', (req, res, next) => {
+  if (!req.isAuthenticated()) res.redirect('/login');
+  return next();
+}, booksRouter);
 app.use('/users', usersRouter);
 
 

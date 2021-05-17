@@ -40,6 +40,9 @@
       <textarea class="form-control" name='abstract' 
         rows="5">{{#if book }}{{book.abstract}}{{/if}}</textarea>
     </div>
+
+    <input type='hidden' name='userId' value="{{user.email}}">
+
     <button type="submit" class="btn btn-outline-dark">Submit</button>
   </div>
 </form>
