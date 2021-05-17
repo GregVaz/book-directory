@@ -8,18 +8,19 @@ export function getAddBook(req, res, next) {
     title: 'Add a book',
     docreate: true,
     id: '',
-    book: undefined
+    book: undefined,
+    user: req.user
   });
 }
 
 export async function viewBook(req, res, next) {
   try {
     let book = await books.read(req.query.id);
-    dberror(book);
     res.render('bookview', {
       title: book ? book.title : '',
       id: req.query.id,
-      book: book
+      book: book,
+      user: req.user
     });
   } catch (err) {
     next(err);
@@ -38,7 +39,8 @@ export async function saveBook(req, res, next) {
         req.body.author,
         req.body.publication_date,
         req.body.abstract,
-        req.body.cover);
+        req.body.cover,
+        req.body.userId);
     } else {
       book = await books.update(
         req.body.id,
@@ -46,7 +48,8 @@ export async function saveBook(req, res, next) {
         req.body.author,
         req.body.publication_date,
         req.body.abstract,
-        req.body.cover);
+        req.body.cover,
+        req.body.userId);
     }
     res.redirect('/books/view?id=' + book.id);
   } catch (err) { 
@@ -61,7 +64,8 @@ export async function updateBook(req, res, next) {
       title: book ? ("Edit " + book.title) : "Add a book",
       docreate: false,
       id: book.id,
-      book: book
+      book: book,
+      user: req.user
     });
   } catch (err) { next(err); };
 }
@@ -72,7 +76,8 @@ export async function destroyBook(req, res, next) {
     res.render('bookdestroy', {
       title: book ? book.title : "",
       id: book.id,
-      book: book
+      book: book,
+      user: req.user
     });
   } catch (err) {
     next(err);
