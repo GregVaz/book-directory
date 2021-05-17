@@ -41,6 +41,7 @@
         rows="5">{{#if book }}{{book.abstract}}{{/if}}</textarea>
     </div>
 
+<<<<<<< HEAD
     <div class="form-group row">
       <label for="cover" class="col-1 col-form-label">Cover</label>
       <div class="col">
@@ -49,6 +50,10 @@
           value='{{#if book }}{{book.cover}}{{/if}}'>
       </div>
     </div>
+=======
+    <input type='hidden' name='userId' value="{{user.email}}">
+
+>>>>>>> Get all the book for each user
     <button type="submit" class="btn btn-outline-dark">Submit</button>
   </div>
 </form>

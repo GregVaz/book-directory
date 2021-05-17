@@ -4,16 +4,18 @@ const _book_author = Symbol('author');
 const _book_publication_date = Symbol('publication_date');
 const _book_abstract = Symbol('abstract');
 const _book_cover = Symbol('cover');
+const _book_userId = Symbol('userId');
 
 // Describe a single Book that our application will manage
 export class Book {
-  constructor(id, title, author, publication_date, abstract, cover) {
+  constructor(id, title, author, publication_date, abstract, cover, userId) {
     this[_book_id] = id;
     this[_book_title] = title;
     this[_book_author] = author;
     this[_book_publication_date] = publication_date;
     this[_book_abstract] = abstract;
     this[_book_cover] = cover;
+    this[_book_userId] = userId;
   }
 
   get id() { return this[_book_id]; }
@@ -27,6 +29,8 @@ export class Book {
   set abstract(newAbstract) { this[_book_abstract] = newAbstract; }
   get cover() { return this[_book_cover]; }
   set cover(newCover) { this[_book_cover] = newCover; }
+  get userId() { return this[_book_userId]; }
+
 
   get JSON() {
     return JSON.stringify({
@@ -36,6 +40,7 @@ export class Book {
       publication_date: this.publication_date,
       abstract: this.abstract,
       cover: this.cover,
+      userId: this.userId
     });
   }
 
@@ -62,7 +67,8 @@ export class Book {
       data.author,
       data.publication_date,
       data.abstract,
-      data.cover
+      data.cover,
+      userId.userId
     );
     return Book;
   }
