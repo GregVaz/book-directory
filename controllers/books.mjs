@@ -1,4 +1,5 @@
 import { BooksStore as books } from '../models/books-store.mjs';
+import { default as sendEmail } from '../mail/mailer.mjs';
 import DBG from 'debug';
 const debug = DBG('books:books-sequelize');
 const dberror = DBG('books:error-sequelize');
@@ -41,6 +42,7 @@ export async function saveBook(req, res, next) {
         req.body.abstract,
         req.body.cover,
         req.body.userId);
+      await sendEmail(true, req.body);
     } else {
       book = await books.update(
         req.body.id,
@@ -87,6 +89,7 @@ export async function destroyBook(req, res, next) {
 export async function destroyBookConfirmation(req, res, next) {
   try {
     await books.destroy(req.body.id);
+    await sendEmail(false, {userId: req.user.email, title: req.body.title});
     res.redirect('/');
   } catch (err) {
     next(err);

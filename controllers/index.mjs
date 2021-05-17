@@ -22,7 +22,6 @@ export function getRegister(req, res, next) {
 }
 
 export function getLogin(req, res, next) {
-  console.log(req.flash);
   res.render('login', {
     title: 'Login'
   });
