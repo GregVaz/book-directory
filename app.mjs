@@ -12,12 +12,9 @@ import { router as booksRouter } from './routes/books.mjs';
 import { router as usersRouter } from './routes/users.mjs';
 import { default as rfs } from 'rotating-file-stream';
 import { default as DBG } from 'debug';
-<<<<<<< HEAD
-=======
 import { default as passport } from 'passport';
 import { default as session } from 'express-session';
 import { Strategy as LocalStrategy } from 'passport-local'
->>>>>>> User authethication and registration
 import dotenv from 'dotenv';
 dotenv.config();
 
