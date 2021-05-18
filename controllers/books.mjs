@@ -92,3 +92,15 @@ export async function destroyBookConfirmation(req, res, next) {
     next(err);
   }
 }
+
+export async function middlewareBooks(req, res, next) {
+  try {
+    const book = await books.read(req.query.id);
+    if (req.user.email !== book.userId) {
+      res.redirect('/');
+    }
+    next();
+  } catch (err) {
+    res.redirect('/');
+  }
+}
