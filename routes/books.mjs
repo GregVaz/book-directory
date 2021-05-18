@@ -7,7 +7,8 @@ import {
   updateBook,
   destroyBook,
   destroyBookConfirmation,
-  middlewareBooks
+  middlewareBooks,
+  getSummary
 } from '../controllers/books.mjs';
 
 // Add a book
@@ -27,3 +28,6 @@ router.get('/destroy', destroyBook);
 
 // Really destroy book
 router.post('/destroy/confirm', destroyBookConfirmation);
+
+// Confirmation to create a pdf summary
+router.get('/summary', getSummary);
