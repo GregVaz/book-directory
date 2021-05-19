@@ -1,5 +1,4 @@
 import { BooksStore as books } from '../models/books-store.mjs';
-import { default as passport } from 'passport';
 
 export async function getAllBooks(req, res, next) {
   try {
