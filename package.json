@@ -8,6 +8,7 @@
     "sequelize-start": "cross-env DEBUG=books:* SEQUELIZE_CONNECT=models/sequelize-mysql.yaml nodemon ./app.mjs"
   },
   "dependencies": {
+    "@slack/bolt": "^3.3.0",
     "@slack/events-api": "^3.0.0",
     "@slack/web-api": "^6.2.3",
     "cookie-parser": "~1.4.4",
