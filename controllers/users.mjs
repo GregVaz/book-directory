@@ -18,7 +18,7 @@ export async function getUser(req, res, next) {
 
 export async function saveUser(req, res, next) {
   try {
-    const userFind = await users.read(req.body.email);
+    const userFind = await users.verify(req.body.email);
     if (userFind) {
       res.render('register', {title: 'Register', message: 'The email already exists'})
       return;

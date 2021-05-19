@@ -40,14 +40,14 @@ export default class SequelizeUserStore extends AbstractUsersStore {
     if (!User) { 
         throw new Error(`No User found for ${email}`); 
     } else {
-        await SQUser.update({ 
-          email: email, 
-          password: password,
-          username: username
-        }, {
-          where: { email: email }
-        });
-        return this.read(email);
+      await SQUser.update({ 
+        email: email, 
+        password: password,
+        username: username
+      }, {
+        where: { email: email }
+      });
+      return this.read(email);
     } 
   }
 
@@ -64,10 +64,20 @@ export default class SequelizeUserStore extends AbstractUsersStore {
   async read(email) {
     await connectDB();
     const newUser = await SQUser.findOne({ where: { email: email } });
-    if (!User) { 
-        throw new Error(`No User found for ${email}`); 
+    if (!newUser) { 
+      throw new Error(`No User found for ${email}`); 
     } else { 
-        return new User(newUser.email, newUser.password, newUser.username); 
+      return new User(newUser.email, newUser.password, newUser.username); 
+    } 
+  }
+
+  async verify(email) {
+    await connectDB();
+    const newUser = await SQUser.findOne({ where: { email: email } });
+    if (!newUser) { 
+      return null
+    } else { 
+      return new User(newUser.email, newUser.password, newUser.username); 
     } 
   }
 
