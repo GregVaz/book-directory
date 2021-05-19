@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       cover: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       }
     });
   },

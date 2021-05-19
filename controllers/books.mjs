@@ -29,6 +29,9 @@ export async function viewBook(req, res, next) {
 export async function saveBook(req, res, next) {
   try {
     let book;
+    if (req.body.cover.trim().length === 0) {
+      req.body.cover = 'https://dhmckee.com/wp-content/uploads/2018/11/defbookcover-min.jpg';
+    }
     if (req.body.docreate === 'create') {
       book = await books.create(
         req.body.title,

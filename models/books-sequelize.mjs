@@ -20,7 +20,7 @@ async function connectDB() {
     author: Sequelize.DataTypes.STRING,
     publication_date: Sequelize.DataTypes.DATE,
     abstract: Sequelize.DataTypes.TEXT,
-    cover: Sequelize.DataTypes.BLOB
+    cover: Sequelize.DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Books',
