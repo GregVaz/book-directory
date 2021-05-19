@@ -14,6 +14,8 @@ import { router as indexRouter } from './routes/index.mjs';
 import { router as booksRouter } from './routes/books.mjs';
 import { default as rfs } from 'rotating-file-stream';
 import { default as DBG } from 'debug';
+import dotenv from 'dotenv';
+dotenv.config();
 
 const debug = DBG('books:debug');
 const dbgerror = DBG('books:error');
