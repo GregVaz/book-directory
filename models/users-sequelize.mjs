@@ -24,7 +24,6 @@ async function connectDB() {
     modelName: 'Users',
     timestamps: false
   });
-  // SQUser.hasMany(SQBook);
   await SQUser.sync();
 }
 

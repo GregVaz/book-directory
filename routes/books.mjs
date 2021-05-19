@@ -6,14 +6,15 @@ import {
   saveBook,
   updateBook,
   destroyBook,
-  destroyBookConfirmation 
+  destroyBookConfirmation,
+  middlewareBooks
 } from '../controllers/books.mjs';
 
 // Add a book
 router.get('/add', getAddBook);
 
 // Read the book (read)
-router.get('/view', viewBook);
+router.get('/view', middlewareBooks, viewBook);
 
 // Save the book (create)
 router.post('/save', saveBook);

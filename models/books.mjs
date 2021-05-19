@@ -68,7 +68,7 @@ export class Book {
       data.publication_date,
       data.abstract,
       data.cover,
-      userId.userId
+      data.userId
     );
     return Book;
   }
@@ -78,7 +78,7 @@ export class Book {
 export class AbstractBooksStore {
   async close() {  }
   async update(id, title, author, publication_date, abstract, cover) {  }
-  async create(id, title, author, publication_date, abstract, cover) {  }
+  async create(id, title, author, publication_date, abstract, cover, userId) {  }
   async read(id) {  }
   async destroy(id) {  }
   async keylist() {  }

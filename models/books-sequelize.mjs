@@ -28,7 +28,6 @@ async function connectDB() {
     modelName: 'Books',
     timestamps: false
   });
-  // SQBook.belongsTo(SQUser);
   await SQBook.sync();
 }
 
@@ -77,7 +76,7 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
     if (!Book) { 
         throw new Error(`No Book found for ${id}`); 
     } else { 
-        return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover); 
+        return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover, sqbook.userId); 
     } 
   }
 
