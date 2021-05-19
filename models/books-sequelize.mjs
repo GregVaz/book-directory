@@ -28,6 +28,7 @@ async function connectDB() {
     modelName: 'Books',
     timestamps: false
   });
+  // SQBook.belongsTo(SQUser);
   await SQBook.sync();
 }
 

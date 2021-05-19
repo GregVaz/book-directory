@@ -1,14 +1,31 @@
 # Book-directory
-Book directory challenge to practice knowledge with Node technology
+
+## Book directory challenge to practice knowledge with Node technology
 
 Node version: 12.x.x
 
-Install dependencies: `npm install`
+#### Install dependencies: `npm install`
 
-Start the project: `npm start`
+#### Initialize sequelize cli configuration `npx sequelize init`
+
+- Register your database information for each environment
+
+#### Write your own .env to initialize each variable
+
+- SEQUELIZE_DBNAME => Database name
+- SEQUELIZE_DBUSER => Database username
+- SEQUELIZE_DBPASSWD => Database password
+- SECRET => Secret word
+- SEQUELIZE_CONNECT => path for sequelize-mysql.yaml
+
+#### Start the project: `npm start`
+
+#### Start the project with debug information and development refresh (nodemon): `npm run sequelize-start`
 
 ## Requierements:
+
 #### Easy mode
+
 - An app to save my book collection.
 - Inside the app, I can:
   - Add/ update a book
@@ -21,6 +38,7 @@ Start the project: `npm start`
   - Delete a book.
 
 #### Medium mode
+
 - Sign in/ login
 - Add books and show JUST my books. (Please, I’m not interested in reading the romantic literature that my partners read)
 - Send email notifications for every book you add.
@@ -32,6 +50,7 @@ Start the project: `npm start`
     - A list of my books with the title and the author.
 
 #### Hard mode
+
 - Create and slack bot (You need to create a workspace)
 - Add books using the bot:
   - Add the bot to the workspace
