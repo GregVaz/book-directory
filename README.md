@@ -18,6 +18,12 @@ Node version: 12.x.x
 - SECRET => Secret word
 - SEQUELIZE_CONNECT => path for sequelize-mysql.yaml
 
+#### Environment variables for slack
+
+- SLACK_SIGIN_SECRET
+- SLACK_OAUTH_TOKEN
+- SLACK_PORT
+
 #### Start the project: `npm start`
 
 #### Start the project with debug information and development refresh (nodemon): `npm run sequelize-start`

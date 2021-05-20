@@ -60,7 +60,6 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
 
   async create(title, author, publication_date, abstract, cover, userId) {
     await connectDB();
-    console.log(title, author, publication_date, abstract, cover, userId);
     const sqbook = await SQBook.create({ 
         title: title, 
         author: author,
