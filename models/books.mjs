@@ -77,7 +77,7 @@ export class Book {
 // Describes methods for managin some Book instances
 export class AbstractBooksStore {
   async close() {  }
-  async update(id, title, author, publication_date, abstract, cover) {  }
+  async update(id, title, author, publication_date, abstract, cover, userId) {  }
   async create(id, title, author, publication_date, abstract, cover, userId) {  }
   async read(id) {  }
   async destroy(id) {  }

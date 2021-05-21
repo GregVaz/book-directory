@@ -6,8 +6,8 @@ export async function getAllBooks(req, res, next) {
     const keyPromises = keylist.map(id => {
       return books.read(id);
     });
-    const notelist = await Promise.all(keyPromises);
-    res.render('index', { title: 'Library', notelist, user: req.user });
+    const booklist = await Promise.all(keyPromises);
+    res.render('index', { title: 'Library', booklist, user: req.user });
   } catch (err) {
     next(err);
   }

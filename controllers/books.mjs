@@ -1,5 +1,8 @@
 import { BooksStore as books } from '../models/books-store.mjs';
+import { default as summaryDoc } from '../entities/pdf-summary.mjs';
+import { approotdir } from '../approotdir.mjs';
 import DBG from 'debug';
+
 const debug = DBG('books:books-sequelize');
 const dberror = DBG('books:error-sequelize');
 
@@ -102,5 +105,21 @@ export async function middlewareBooks(req, res, next) {
     next();
   } catch (err) {
     res.redirect('/');
+  }
+}
+
+export async function getSummary(req, res, next) {
+  try {
+    const keylist = await books.keylist(req.user.email);
+    const keyPromises = keylist.map(id => {
+      return books.read(id);
+    });
+    let booklist = await Promise.all(keyPromises);
+    booklist = booklist.map(book => {book.publication_date = book.publication_date.toDateString(); return book; });
+    summaryDoc(booklist);
+    const file = `${approotdir}/summary-books.pdf`;
+    res.download(file);
+  } catch (err) {
+    next(err);
   }
 }
