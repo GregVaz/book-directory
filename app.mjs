@@ -15,6 +15,7 @@ import { default as DBG } from 'debug';
 import { default as passport } from 'passport';
 import { default as session } from 'express-session';
 import { Strategy as LocalStrategy } from 'passport-local'
+import { default as slackApp } from './slackapi/slackbot-bolt.mjs'
 import { validateSession } from './middleware/index.mjs';
 import dotenv from 'dotenv';
 
@@ -104,6 +105,10 @@ app.use(basicErrorHandler);
 // Start server
 export const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+const slackPort = normalizePort(process.env.SLACK_PORT || '3002')
+slackApp.start(slackPort).then(() => {
+  console.log(`Slack server started on port ${slackPort}`);
+});
 
 export const server = http.createServer(app);
 

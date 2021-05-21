@@ -25,6 +25,11 @@ Node version: 12.x.x
 - EMAIL_CLIENT_ID => client id for your api
 - EMAIL_CLIENT_SECRET => client secret token for you api
 - EMAIL_REFRESH_TOKEN => refresh token through your credentials
+#### Environment variables for slack
+
+- SLACK_SIGIN_SECRET
+- SLACK_OAUTH_TOKEN
+- SLACK_PORT
 
 #### Start the project: `npm start`
 
