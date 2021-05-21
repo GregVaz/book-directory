@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import { google } from 'googleapis';
 import template from './mail.mjs';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const OAuth2 = google.auth.OAuth2;
@@ -24,7 +25,7 @@ let transport = nodemailer.createTransport({
     clientId: process.env.EMAIL_CLIENT_ID,
     clientSecret: process.env.EMAIL_CLIENT_SECRET,
     refreshToken: process.env.EMAIL_REFRESH_TOKEN,
-    accessToken: accessToken
+    accessToken
   },
   tls: {
     rejectUnauthorized: false
