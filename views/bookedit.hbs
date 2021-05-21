@@ -49,6 +49,9 @@
           value='{{#if book }}{{book.cover}}{{/if}}'>
       </div>
     </div>
+
+    <input type='hidden' name='userId' value="{{user.email}}">
+
     <button type="submit" class="btn btn-outline-dark">Submit</button>
   </div>
 </form>

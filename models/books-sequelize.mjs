@@ -1,4 +1,5 @@
 import { Book, AbstractBooksStore } from './books.mjs';
+import { SQUser } from './users-sequelize.mjs';
 import Sequelize from 'sequelize';
 import {
   connectDB as connectSequlz,
@@ -20,12 +21,14 @@ async function connectDB() {
     author: Sequelize.DataTypes.STRING,
     publication_date: Sequelize.DataTypes.DATE,
     abstract: Sequelize.DataTypes.TEXT,
-    cover: Sequelize.DataTypes.STRING
+    cover: Sequelize.DataTypes.STRING,
+    userId: Sequelize.DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Books',
     timestamps: false
   });
+  // SQBook.belongsTo(SQUser);
   await SQBook.sync();
 }
 
@@ -55,16 +58,17 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
     } 
   }
 
-  async create(title, author, publication_date, abstract, cover) {
+  async create(title, author, publication_date, abstract, cover, userId) {
     await connectDB();
     const sqbook = await SQBook.create({ 
         title: title, 
         author: author,
         publication_date: publication_date,
         abstract: abstract,
-        cover: cover
+        cover: cover,
+        userId: userId
     });
-    return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover);
+    return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover, sqbook.userId);
   }
 
   async read(id) {
@@ -73,7 +77,7 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
     if (!Book) { 
         throw new Error(`No Book found for ${id}`); 
     } else { 
-        return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover); 
+        return new Book(sqbook.id, sqbook.title, sqbook.author, sqbook.publication_date, sqbook.abstract, sqbook.cover, sqbook.userId); 
     } 
   }
 
@@ -83,9 +87,9 @@ export default class SequelizeBooksStore extends AbstractBooksStore {
     debug(`DESTROY ${id}`);
   }
 
-  async keylist() {
+  async keylist(userId) {
     await connectDB();
-    const books = await SQBook.findAll({ attributes: [ 'id' ] });
+    const books = await SQBook.findAll({ where: { userId: userId } });
     const ids = books.map(Book => Book.id); 
     debug(`KEYLIST ${ids}`);
     return ids;

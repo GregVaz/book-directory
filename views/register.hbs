@@ -1,0 +1,34 @@
+<form method='POST' action='/users/save'>
+  <div class="container-fluid">
+
+    <div class="form-group row">
+      <label for="username" class="col-1 col-form-label">User name</label>
+      <div class="col">
+        <input type="text" class="form-control" 
+          id='username' name='username' placeholder="Joaquin Lopez" 
+          value='{{#if user }}{{user.username}}{{/if}}' required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="email" class="col-1 col-form-label">Email</label>
+      <div class="col">
+        <input type="text" class="form-control" 
+          id='email' name='email' placeholder="email@domain.com" 
+          value='{{#if user }}{{user.email}}{{/if}}' required>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label for="password" class="col-1 col-form-label">Password</label>
+      <div class="col">
+        <input type="password" class="form-control" 
+          id='password' name='password' placeholder="********" 
+          value='{{#if user }}{{user.password}}{{/if}}' minlength="6" required>
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-outline-dark">Submit</button>
+  </div>
+</form>
+<h3>{{message}}</h3>
