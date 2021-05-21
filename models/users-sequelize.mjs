@@ -39,7 +39,7 @@ export default class SequelizeUserStore extends AbstractUsersStore {
     await connectDB();
     const User = await SQUser.findOne({ where: { email: email } }) 
     if (!User) { 
-        throw new Error(`No User found for ${email}`); 
+      throw new Error(`No User found for ${email}`); 
     } else {
       await SQUser.update({ 
         email: email, 
