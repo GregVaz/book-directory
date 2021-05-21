@@ -1,5 +1,6 @@
 import { UserStore as users } from '../models/books-store.mjs';
 import DBG from 'debug';
+
 const debug = DBG('users:users-sequelize');
 const dberror = DBG('users:error-sequelize');
 
@@ -9,7 +10,7 @@ export async function getUser(req, res, next) {
     res.render('Userview', {
       username: User ? User.username : '',
       email: req.query.email,
-      User: User
+      User
     });
   } catch (err) {
     next(err);
@@ -39,7 +40,7 @@ export async function updateUser(req, res, next) {
     res.render('Useredit', {
       username: User ? ("Edit " + User.username) : "Add a User",
       email: User.email,
-      User: User
+      User
     });
   } catch (err) { next(err); };
 }
@@ -50,7 +51,7 @@ export async function destroyUser(req, res, next) {
     res.render('Userdestroy', {
       username: User ? User.username : "",
       email: User.email,
-      User: User
+      User
     });
   } catch (err) {
     next(err);

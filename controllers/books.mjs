@@ -2,6 +2,7 @@ import { BooksStore as books } from '../models/books-store.mjs';
 import { default as summaryDoc } from '../entities/pdf-summary.mjs';
 import { approotdir } from '../approotdir.mjs';
 import DBG from 'debug';
+
 const debug = DBG('books:books-sequelize');
 const dberror = DBG('books:error-sequelize');
 
@@ -21,7 +22,7 @@ export async function viewBook(req, res, next) {
     res.render('bookview', {
       title: book ? book.title : '',
       id: req.query.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) {
@@ -66,7 +67,7 @@ export async function updateBook(req, res, next) {
       title: book ? ("Edit " + book.title) : "Add a book",
       docreate: false,
       id: book.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) { next(err); };
@@ -78,7 +79,7 @@ export async function destroyBook(req, res, next) {
     res.render('bookdestroy', {
       title: book ? book.title : "",
       id: book.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) {
