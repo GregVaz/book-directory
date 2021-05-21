@@ -20,7 +20,7 @@ export async function viewBook(req, res, next) {
     res.render('bookview', {
       title: book ? book.title : '',
       id: req.query.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) {
@@ -66,7 +66,7 @@ export async function updateBook(req, res, next) {
       title: book ? ("Edit " + book.title) : "Add a book",
       docreate: false,
       id: book.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) { next(err); };
@@ -78,7 +78,7 @@ export async function destroyBook(req, res, next) {
     res.render('bookdestroy', {
       title: book ? book.title : "",
       id: book.id,
-      book: book,
+      book,
       user: req.user
     });
   } catch (err) {

@@ -15,15 +15,19 @@ import { default as DBG } from 'debug';
 import { default as passport } from 'passport';
 import { default as session } from 'express-session';
 import { Strategy as LocalStrategy } from 'passport-local'
+import { validateSession } from './middleware/index.mjs';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
 const __dirname = approotdir;
 const debug = DBG('books:debug');
 const dberror = DBG('books:error');
 let dbUserConnect;
+
 // Initialize the books model
 import { useBookModel as booksModel, useUserModel as usersModel } from './models/books-store.mjs';
+
 booksModel()
   .then(store => { debug(`Using BooksStore ${store}`); })
   .catch(error => { onError({ code: 'EBOOKSSTORE', error}); });
@@ -88,15 +92,10 @@ app.use(logger(process.env.REQUEST_LOG_FORMAT || 'dev', {
   : process.stdout
 }));
 
-
 // Routes
 app.use('/', indexRouter);
-app.use('/books', (req, res, next) => {
-  if (!req.isAuthenticated()) res.redirect('/login');
-  return next();
-}, booksRouter);
+app.use('/books', validateSession, booksRouter);
 app.use('/users', usersRouter);
-
 
 // catch 404 and forward to error handler
 app.use(handle404);

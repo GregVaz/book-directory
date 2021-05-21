@@ -9,7 +9,7 @@ export async function getUser(req, res, next) {
     res.render('Userview', {
       username: User ? User.username : '',
       email: req.query.email,
-      User: User
+      User
     });
   } catch (err) {
     next(err);
@@ -39,7 +39,7 @@ export async function updateUser(req, res, next) {
     res.render('Useredit', {
       username: User ? ("Edit " + User.username) : "Add a User",
       email: User.email,
-      User: User
+      User
     });
   } catch (err) { next(err); };
 }
@@ -50,7 +50,7 @@ export async function destroyUser(req, res, next) {
     res.render('Userdestroy', {
       username: User ? User.username : "",
       email: User.email,
-      User: User
+      User
     });
   } catch (err) {
     next(err);
