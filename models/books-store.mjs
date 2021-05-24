@@ -1,9 +1,5 @@
-import { default as DBG } from 'debug';
-const debug = DBG('books:books-store');
-const error = DBG('books:error-store');
-
-var _BooksStore;
-var _UserStore;
+let _BooksStore;
+let _UserStore;
 
 export async function useBookModel() {
   try {
