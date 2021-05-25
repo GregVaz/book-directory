@@ -1,6 +1,7 @@
 import util from 'util';
 import Chai from 'chai';
 import { useUserModel as useUserModel } from '../models/books-store.mjs';
+import { User } from '../models/user.mjs';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -53,7 +54,7 @@ describe('Model User Test', () => {
       var keyPromises = keyz.map(key => userStore.read(key));
       const users = await Promise.all(keyPromises);
       for (let user of users) {
-      assert.match(user.username, /testUser[12]/, "correct username");
+        assert.match(user.username, /testUser[12]/, "correct username");
       }
       });
 
@@ -87,6 +88,64 @@ describe('Model User Test', () => {
         // the 'should not get here' error is thrown
         assert.equal(err.message, 'should not get here');
       }
+    });
+
+    after(async function() {
+      const keyz = await userStore.keylist();
+      for (let key of keyz) {
+        await userStore.destroy(key);
+      }
+    });
+  });
+
+  context('delete an user', function() {
+    let testUser;
+    before(async function() {
+      testUser = await userStore.create('test1@gmail.com', '123456', 'testUser1');
+    });
+
+    it('should have proper user', async function() {
+      const user = await userStore.read('test1@gmail.com');
+      assert.exists(user);
+      assert.deepEqual(user, testUser);
+    });
+
+    it('should delete and check if the user exists', async function() {
+      let user = await userStore.verify('test1@gmail.com');
+      assert.exists(user);
+      await userStore.destroy(testUser.email);
+      user = await userStore.verify('test1@gmail.com');
+      assert.notExists(user);
+    });
+
+    after(async function() {
+      const keyz = await userStore.keylist();
+      for (let key of keyz) {
+        await userStore.destroy(key);
+      }
+    });
+  });
+
+  context('update an user', function() {
+    let testUser;
+    before(async function() {
+      testUser = await userStore.create('test1@gmail.com', '123456', 'testUser1');
+    });
+
+    it('should have proper user', async function() {
+      const user = await userStore.read('test1@gmail.com');
+      assert.exists(user);
+      assert.deepEqual(user, testUser);
+    });
+
+    it('should update and compare the new data', async function() {
+      let user = await userStore.read('test1@gmail.com');
+      assert.exists(user);
+      await userStore.update(user.email, user.password, 'testUserUpdated');
+      user = await userStore.read('test1@gmail.com');
+      assert.notEqual(user, testUser);
+      const userUpdated = new User(user.email, user.password, 'testUserUpdated');
+      assert.deepEqual(user, userUpdated);
     });
 
     after(async function() {
