@@ -5,6 +5,7 @@ import { app } from '../app.mjs';
 import dotenv from 'dotenv';
 import { useUserModel as useUserModel } from '../models/books-store.mjs';
 import { useBookModel as useBookModel } from '../models/books-store.mjs';
+import { default as fs } from 'fs';
 
 dotenv.config();
 Chai.use(chaiHttp);
@@ -129,6 +130,7 @@ describe('Book Router', function() {
       await agent.post('/login')
         .send({email: testUser.email, password: testUser.password});
     });
+    this.timeout(100000);
 
     it('book add path should have a 200 status', async () => {
       const authenticatedResponse = await agent.get('/books/add');
@@ -191,6 +193,13 @@ describe('Book Router', function() {
       expect(authenticatedResponse).to.have.status(200);
     });
 
+    it('book view path should redirect to root path if it is not your book', async () => {
+      const authenticatedResponse = await agent.get('/books/view').query({id: 0});
+      expect(authenticatedResponse.text).to.have.include('Library');
+      expect(authenticatedResponse).to.redirect;
+      expect(authenticatedResponse).to.have.status(200);
+    });
+
     it('book edit path should show book information', async () => {
       const authenticatedResponse = await agent.get('/books/edit').query({id: testBook1.id});
       expect(authenticatedResponse.text).to.have.include(`Edit ${testBook1.title}`);
@@ -212,6 +221,11 @@ describe('Book Router', function() {
       expect(authenticatedResponse).to.have.status(200);
       const books = await bookStore.keylist(testUser.email);
       expect(books).to.not.include(testBook1);
+    });
+
+    it('book summary path should download a file with a date of today', async () => {
+      const authenticatedResponse = await agent.get('/books/summary');
+      expect(fs.existsSync(authenticatedResponse)).exist;
     });
 
     after(async function() {

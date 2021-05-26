@@ -6,7 +6,8 @@
     "start": "node ./app.mjs",
     "watch": "nodemon ./app.mjs",
     "sequelize-start": "cross-env DEBUG=books:* nodemon ./app.mjs",
-    "test": "cross-env DEBUG=books:* mocha testing/* --exit"
+    "test": "cross-env mocha testing/* --exit",
+    "test-debug": "cross-env DEBUG=books:* mocha testing/* --exit"
   },
   "dependencies": {
     "@slack/bolt": "^3.3.0",
