@@ -24,7 +24,7 @@ describe('Initialize', function() {
   });
 });
 
-describe('Index Router', function() {
+describe('User Router', function() {
 
   context('POST to save user', function() {
     let testUser;

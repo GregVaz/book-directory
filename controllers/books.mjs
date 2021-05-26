@@ -53,8 +53,7 @@ export async function saveBook(req, res, next) {
         req.body.author,
         req.body.publication_date,
         req.body.abstract,
-        req.body.cover,
-        req.body.userId);
+        req.body.cover);
     }
     res.redirect('/books/view?id=' + book.id);
   } catch (err) { 
