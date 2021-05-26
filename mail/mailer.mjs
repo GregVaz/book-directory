@@ -33,17 +33,24 @@ let transport = nodemailer.createTransport({
 });
 
 export default async function sendEmail(create, book) {
-  let html_body = template(book.title, create ? 'created' : 'deleted');
-  const message = {
-    from: process.env.EMAIL_USER, // Sender address
-    to: book.userId,         // List of recipients
-    subject: create ? 'A new book was registered' : 'A book was deleted', // Subject line
-    generateTextFromHTML: true,
-    html: html_body
-  };
+  return new Promise((resolve) => {
+    let html_body = template(book.title, create ? 'created' : 'deleted');
+    const message = {
+      from: process.env.EMAIL_USER, // Sender address
+      to: book.userId,         // List of recipients
+      subject: create ? 'A new book was registered' : 'A book was deleted', // Subject line
+      generateTextFromHTML: true,
+      html: html_body
+    };
 
-  transport.sendMail(message, function(err, info) {
-    if (err) console.log(err);
-    else console.log(info);
-  });
+    transport.sendMail(message, function(err, info) {
+      if (err) {
+        console.log(err)
+        resolve(err);
+      } else {
+        console.log(info);
+        resolve(info)
+      }
+    });
+  })
 }

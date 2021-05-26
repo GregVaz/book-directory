@@ -86,4 +86,19 @@ export default class SequelizeUserStore extends AbstractUsersStore {
     await SQUser.destroy({ where: { email: email } });
     debug(`DESTROY ${email}`);
   }
+
+  async keylist() {
+    await connectDB();
+    const users = await SQUser.findAll({ attributes: ['email'] });
+    const ids = users.map(User => User.email); 
+    debug(`KEYLIST ${ids}`);
+    return ids;
+  }
+
+  async count() {
+    await connectDB();
+    const count = await SQUser.count();
+    debug(`COUNT ${count}`); 
+    return count; 
+  }
 }

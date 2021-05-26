@@ -5,7 +5,9 @@
   "scripts": {
     "start": "node ./app.mjs",
     "watch": "nodemon ./app.mjs",
-    "sequelize-start": "cross-env DEBUG=books:* SEQUELIZE_CONNECT=models/sequelize-mysql.yaml nodemon ./app.mjs"
+    "sequelize-start": "cross-env DEBUG=books:* nodemon ./app.mjs",
+    "test": "cross-env mocha testing/* --exit",
+    "test-debug": "cross-env DEBUG=books:* mocha testing/* --exit"
   },
   "dependencies": {
     "@slack/bolt": "^3.3.0",
@@ -15,7 +17,6 @@
     "asynckit": "^0.4.0",
     "axios": "^0.21.1",
     "cookie-parser": "~1.4.4",
-    "cross-env": "^7.0.3",
     "debug": "~2.6.9",
     "dotenv": "^9.0.2",
     "eventemitter3": "^4.0.7",
@@ -41,7 +42,12 @@
     "sequelize": "^6.6.2"
   },
   "devDependencies": {
+    "chai": "4.2.x",
+    "chai-http": "^4.3.0",
+    "cross-env": "^7.0.3",
+    "mocha": "^7.2.0",
     "nodemon": "^2.0.7",
+    "npm-run-all": "4.1.x",
     "sequelize-cli": "^6.2.0"
   }
 }

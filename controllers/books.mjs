@@ -53,8 +53,7 @@ export async function saveBook(req, res, next) {
         req.body.author,
         req.body.publication_date,
         req.body.abstract,
-        req.body.cover,
-        req.body.userId);
+        req.body.cover);
     }
     res.redirect('/books/view?id=' + book.id);
   } catch (err) { 
@@ -120,8 +119,9 @@ export async function getSummary(req, res, next) {
     let booklist = await Promise.all(keyPromises);
     booklist = booklist.map(book => {book.publication_date = book.publication_date.toDateString(); return book; });
     summaryDoc(booklist);
-    const file = `${approotdir}/summary-books.pdf`;
-    res.download(file);
+    const filePath = `${approotdir}/summary-books.pdf`;
+    res.download(filePath);
+    return filePath;
   } catch (err) {
     next(err);
   }
